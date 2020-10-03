@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Book
+{% endblock %}
+
+{% block body %}
+{% if msg %}
+    <script>
+        alert('{{ msg }}');
+    </script>
+{% endif %}
+<a href="{% url 'default' %}" style="margin-left: 10px; font-size: 24px; font-weight: bold;">Back</a>
+<div style="display: flex; justify-content: center; padding-top: 100px;">
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Add</button>
+    </form>
+</div>
+<div style="display: flex; justify-content: center; padding-top: 150px;">
+    {% for book in books %}
+        {{ book }}<br>
+    {% endfor %}
+</div>
+{% endblock %}
