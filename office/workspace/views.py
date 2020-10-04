@@ -43,7 +43,7 @@ def book(request):
                 worker.booked_history.add(book)
             else:
                 books = Booked.objects.all()
-                return render(request, 'book.html', {'form':form, 'books':books, 'msg':'Select different time!'})
+                return render(request, 'book.html', {'form':form, 'books':books, 'msg':'No free spots at this time!'})
     form = BookForm()
     books = Booked.objects.all()
     return render(request, 'book.html', {'form':form, 'books':books,})

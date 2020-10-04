@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Worker
+{% endblock %}
+
+{% block body %}
+<a href="{% url 'worker' %}" style="margin-left: 10px; font-size: 24px; font-weight: bold;">Back</a>
+<div style="display: flex; justify-content: center; padding-top: 100px;">
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Edit</button>
+    </form>
+</div>
+{% endblock %}

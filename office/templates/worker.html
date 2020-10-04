@@ -6,6 +6,7 @@
 
 {% block body %}
 <a href="{% url 'default' %}" style="margin-left: 10px; font-size: 24px; font-weight: bold;">Back</a>
+<a href="{% url 'api_workers' %}" style="margin-left: 100px; font-size: 24px; font-weight: bold;">API</a>
 <div style="display: flex; justify-content: center; padding-top: 100px;">
     <form method="POST" class="post-form">
         {% csrf_token %}
@@ -16,9 +17,14 @@
 <div style="display: block; padding-top: 150px; text-align: center;">
     {% for worker in workers %}
         <br><b>{{ worker }}</b><br>
-        {% for x in worker.booked_history.all %}
-        {{ x }}<br>
-        {% endfor %}
+        {% if worker.booked_history.all %}
+            {% for x in worker.booked_history.all %}
+                {{ x }} <a href="{% url 'worker_edit' worker.id %}">(edit)</a><br>
+            {% endfor %}
+        {% else %}
+        No books yet.<br>
+        {% endif %}
+       
     {% endfor %}
 </div>
 {% endblock %}
