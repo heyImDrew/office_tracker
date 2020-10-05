@@ -16,10 +16,11 @@
 </div>
 <div style="display: block; padding-top: 150px; text-align: center;">
     {% for worker in workers %}
-        <br><b>{{ worker }}</b><br>
+        <br><b>{{ worker }}</b> <a href="{% url 'worker_edit' worker.id %}">(edit)</a>
+        <a href="{% url 'worker_delete' worker.id %}">(delete)</a><br>
         {% if worker.booked_history.all %}
             {% for x in worker.booked_history.all %}
-                {{ x }} <a href="{% url 'worker_edit' worker.id %}">(edit)</a><br>
+                {{ x }}<br>
             {% endfor %}
         {% else %}
         No books yet.<br>
