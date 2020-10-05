@@ -1,6 +1,9 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+docker-compose.yml
+Dockerfile
+.env.dev
 
 # C extensions
 *.so
