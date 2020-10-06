@@ -11,11 +11,29 @@ def office(request):
     if request.method == "POST":
         form = OfficeForm(request.POST)
         if form.is_valid():
-            office = form.save()
-            office.save()
+            if int(request.POST['number']) not in [office.number for office in Office.objects.all()]:
+                office = form.save()
+                office.save()
     form = OfficeForm()
     offices = Office.objects.all()
     return render(request, 'office.html', {'form':form,'offices':offices,})
+
+def office_edit(request, pk):
+    if request.method == "POST":
+        form = OfficeForm(request.POST)
+        if form.is_valid():
+            office = Office.objects.get(id = pk)
+            office.number = request.POST['number']
+            office.address = request.POST['address']
+            office.save()
+            office = Office.objects.all()
+            return redirect('office')
+    return render(request, 'office_edit.html', {'form':OfficeForm(),'office':Office.objects.get(id = pk),})
+
+# def worker_delete(request, pk):
+#     worker = Worker.objects.get(id = pk)
+#     worker.delete()
+#     return redirect('worker')
 
 def room(request):
     if request.method == "POST":

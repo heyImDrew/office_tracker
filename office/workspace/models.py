@@ -1,7 +1,7 @@
 from django.db import models
 
 class Office(models.Model):
-    number = models.IntegerField(unique = True)
+    number = models.IntegerField(unique = False)
     address = models.CharField(max_length = 255)
     def __str__(self):
         return "№" + str(self.number)+ " (" + self.address + ")"

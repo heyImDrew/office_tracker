@@ -1,23 +1,15 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Worker
+    Office
 {% endblock %}
 
 {% block body %}
-
-{% if msg %}
-<script>
-    alert('Enter correct information!')
-</script>
-{% endif %}
-
-
-<a href="{% url 'worker' %}" style="margin-left: 10px; font-size: 24px; font-weight: bold;">Back</a>
+<a href="{% url 'office' %}" style="margin-left: 10px; font-size: 24px; font-weight: bold;">Back</a>
 <div style="display: flex; justify-content: center; padding-top: 100px;">
     <form method="POST" class="post-form">
-        Current name: {{ worker.name }}<br>
-        Current surname: {{ worker.last_name }}<br><br>
+        Current number: {{ office.number }}<br>
+        Current address: {{ office.address }}<br><br>
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="save btn btn-default">Edit</button>

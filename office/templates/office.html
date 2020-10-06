@@ -14,9 +14,11 @@
         <button type="submit" class="save btn btn-default">Add</button>
     </form>
 </div>
-<div style="display: flex; justify-content: center; padding-top: 150px;">
+<div style="display: block; padding-top: 150px; text-align: center;">
     {% for office in offices %}
-        Office #{{ office.number }}: {{ office.address }}<br>
+        Office #{{ office.number }}: {{ office.address }} 
+        <a href="{% url 'office_edit' office.id %}">(edit)</a>
+        <a href="#">(delete)</a><br><br>
     {% endfor %}
 </div>
 {% endblock %}
