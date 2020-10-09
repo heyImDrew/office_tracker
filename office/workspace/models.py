@@ -1,10 +1,12 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 
 class Office(models.Model):
-    number = models.IntegerField(unique = False)
-    address = models.CharField(max_length = 255)
+    number = models.IntegerField(validators=[MinValueValidator(1)])
+    street = models.CharField(max_length = 255, default=None)
+    house = models.IntegerField(validators=[MinValueValidator(1)], default=None)
     def __str__(self):
-        return "№" + str(self.number)+ " (" + self.address + ")"
+        return "№" + str(self.number) + " (" + str(self.street) + ' ' + str(self.house) + ")"
         
 class Room(models.Model):
     number = models.IntegerField()

@@ -5,6 +5,13 @@
 {% endblock %}
 
 {% block body %}
+
+{% if msg %}
+<script>
+    alert('Enter correct information!')
+</script>
+{% endif %}
+
 <a href="{% url 'default' %}" style="margin-left: 10px; font-size: 24px; font-weight: bold;">Back</a>
 <a href="{% url 'api_offices' %}" style="margin-left: 100px; font-size: 24px; font-weight: bold;">API</a>
 <div style="display: flex; justify-content: center; padding-top: 100px;">
@@ -16,9 +23,9 @@
 </div>
 <div style="display: block; padding-top: 150px; text-align: center;">
     {% for office in offices %}
-        Office #{{ office.number }}: {{ office.address }} 
+        Office #{{ office.number }}: {{ office.street }} {{ office.house }} 
         <a href="{% url 'office_edit' office.id %}">(edit)</a>
-        <a href="#">(delete)</a><br><br>
+        <a href="{% url 'office_delete' office.id %}">(delete)</a><br>
     {% endfor %}
 </div>
 {% endblock %}

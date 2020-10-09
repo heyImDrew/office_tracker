@@ -4,7 +4,7 @@ from .models import *
 class OfficeForm(forms.ModelForm):
     class Meta:
         model = Office
-        fields = ('number', 'address')
+        fields = ('number', 'street', 'house')
 
 class RoomForm(forms.ModelForm):
     class Meta:

@@ -34,8 +34,8 @@ def worker_edit(request, pk):
         if form.is_valid():
             if valid_name(request.POST['name']) and valid_name(request.POST['last_name']):
                 worker = Worker.objects.get(id = pk)
-                worker.name = request.POST['name']
-                worker.last_name = request.POST['last_name']
+                worker.name = request.POST['name'].lower().capitalize()
+                worker.last_name = request.POST['last_name'].lower().capitalize()
                 worker.save()
                 workers = Worker.objects.all()
                 return redirect('worker')

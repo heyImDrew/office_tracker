@@ -11,39 +11,67 @@ def office(request):
     if request.method == "POST":
         form = OfficeForm(request.POST)
         if form.is_valid():
-            if int(request.POST['number']) not in [office.number for office in Office.objects.all()]:
+            if (int(request.POST['number']) not in [office.number for office in Office.objects.all()]) and (request.POST['street'].isalpha()):
                 office = form.save()
+                office.street = request.POST['street'].lower().capitalize()
                 office.save()
+            else: return render(request, 'office.html', {'form':OfficeForm(),'offices':Office.objects.all().order_by('number'),'msg':True,})
     form = OfficeForm()
-    offices = Office.objects.all()
-    return render(request, 'office.html', {'form':form,'offices':offices,})
+    offices = Office.objects.all().order_by('number')
+    return render(request, 'office.html', {'form':form,'offices':offices,'msg':False})
 
 def office_edit(request, pk):
     if request.method == "POST":
         form = OfficeForm(request.POST)
         if form.is_valid():
-            office = Office.objects.get(id = pk)
-            office.number = request.POST['number']
-            office.address = request.POST['address']
-            office.save()
-            office = Office.objects.all()
-            return redirect('office')
-    return render(request, 'office_edit.html', {'form':OfficeForm(),'office':Office.objects.get(id = pk),})
+            if (int(request.POST['number']) not in [office.number for office in Office.objects.all() if office.number!=Office.objects.get(id=pk).number]) and (request.POST['street'].isalpha()):
+                office = Office.objects.get(id = pk)
+                office.number = request.POST['number']
+                office.street = request.POST['street'].lower().capitalize()
+                office.house = request.POST['house']
+                office.save()
+                return redirect('office')
+            else: 
+                return render(request, 'office_edit.html', {'form':OfficeForm(),'office':Office.objects.get(id = pk),'msg':True,})
+    return render(request, 'office_edit.html', {'form':OfficeForm(),'office':Office.objects.get(id = pk),'msg':False})
 
-# def worker_delete(request, pk):
-#     worker = Worker.objects.get(id = pk)
-#     worker.delete()
-#     return redirect('worker')
+def office_delete(request, pk):
+    office = Office.objects.get(id = pk)
+    office.delete()
+    return redirect('office')
 
 def room(request):
     if request.method == "POST":
         form = RoomForm(request.POST)
         if form.is_valid():
-            room = form.save()
-            room.save()
+            if (int(request.POST['number']) not in [room.number for room in Room.objects.filter(office = Office.objects.get(id = int(request.POST['office'])))]):
+                room = form.save()
+                room.save()
+            else:
+                return render(request, 'room.html', {'form':RoomForm(), 'rooms':Room.objects.all(), 'msg':True})
     form = RoomForm()
     rooms = Room.objects.all()
-    return render(request, 'room.html', {'form':form, 'rooms':rooms})
+    return render(request, 'room.html', {'form':form, 'rooms':rooms, 'msg':False})
+
+def room_edit(request, pk):
+    if request.method == "POST":
+        import pdb; pdb.set_trace();
+        form = RoomForm(request.POST)
+        if form.is_valid():
+            if int(request.POST['number']) not in [x.number for x in Room.objects.filter(office = Office.objects.get(id = int(request.POST['office'])))]:
+                room = Room.objects.get(id = pk)
+                room.number = request.POST['number']
+                room.office = Office.objects.get(id = int(request.POST['office']))
+                room.number_of_sits = request.POST['number_of_sits']
+                room.save()
+            else: 
+                return render(request, 'room_edit.html', {'form':RoomForm(),'room':Room.objects.get(id = pk),'msg':True})
+    return render(request, 'room_edit.html', {'form':RoomForm(),'room':Room.objects.get(id = pk),'msg':False})
+
+def room_delete(request, pk):
+    room = Room.objects.get(id = pk)
+    room.delete()
+    return redirect('room')
 
 def book(request):
     if request.method == "POST":
